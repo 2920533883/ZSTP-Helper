@@ -1,6 +1,7 @@
 package com.zstp.controller;
 
 import com.hankcs.hanlp.corpus.document.sentence.Sentence;
+import com.hankcs.hanlp.corpus.document.sentence.word.Word;
 import com.hankcs.hanlp.model.perceptron.PerceptronLexicalAnalyzer;
 import com.zstp.entity.R;
 import lombok.extern.log4j.Log4j2;
@@ -11,6 +12,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @RestController
 public class StepOneController {
@@ -35,11 +37,14 @@ public class StepOneController {
         System.out.printf("正在解析--%s\n", fileName);
         PerceptronLexicalAnalyzer analyzer = new PerceptronLexicalAnalyzer();
         Sentence analyze = analyzer.analyze(content);
+        List<Word> words = analyze.toSimpleWordList();
         System.out.printf("解析完成--%s\n", fileName);
         // 保存文件
         System.out.printf("开始保存--%s\n", filePath);
         FileOutputStream fops = new FileOutputStream(filePath);
-        fops.write(analyze.toString().getBytes());
+        for(Word word: words){
+            fops.write((word.toString()+'\n').getBytes());
+        }
         System.out.printf("保存完毕--%s\n",filePath);
         // 关闭流
         ips.close();

@@ -1,0 +1,16 @@
+server:
+  port: 8888
+  tomcat:
+    max-swallow-size: -1
+    max-http-form-post-size: 100MB # post请求体携带数据大小
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB # 最大上传量
+
+save:
+  path: /usr/local/zstp/source/mydata/before/
+#save:
+#  path: E:/JavaProject/hanlp/
